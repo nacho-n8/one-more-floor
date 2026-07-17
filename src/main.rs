@@ -1,3 +1,5 @@
+mod temp;
+
 use bevy::prelude::*;
 
 fn main() {
@@ -10,5 +12,6 @@ fn main() {
                 }),
                 ..default()
             }))
+        .add_systems(Startup, (temp::spawn_camera, temp::spawn_level))
         .run();
 }
