@@ -32,6 +32,6 @@ pub fn move_player(
 
     if direction != Vec2::ZERO {
         let delta = direction.normalize() * SPEED * time.delta_secs();
-        transform.translation += Vec3::new(delta.x, 0.0, delta.y);
+        transform.translation += Vec3::new(delta.x, 0.0, -delta.y);
     }
 }

@@ -1,6 +1,8 @@
-mod temp;
+mod camera;
 mod player;
+mod temp;
 
+use crate::camera::CameraPlugin;
 use crate::player::PlayerPlugin;
 
 use bevy::prelude::*;
@@ -15,7 +17,7 @@ fn main() {
                 }),
                 ..default()
             }))
-        .add_plugins(PlayerPlugin)
-        .add_systems(Startup, (temp::spawn_camera, temp::spawn_level))
+        .add_plugins((CameraPlugin, PlayerPlugin))
+        .add_systems(Startup,  temp::spawn_level)
         .run();
 }

@@ -5,15 +5,6 @@ use bevy::{
     prelude::*
 };
 
-pub fn spawn_camera(
-    mut commands: Commands,
-) {
-    commands.spawn((
-        Camera3d::default(),
-        Transform::from_translation(Vec3::new(0.0, 2.0, 4.0)).looking_at(Vec3::splat(0.0), Vec3::Y),
-    ));
-}
-
 pub fn spawn_level(
     mut commands: Commands,
     assets: Res<AssetServer>,
@@ -108,7 +99,10 @@ pub fn spawn_level(
         let mut j = 0;
         while j < 5 {
             commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/floor_wood_large.gltf"))))
-                .insert(Transform::from_translation(Vec3::new(-8.0 + j as f32 * 4.0, 4.0, -8.0 + i as f32 * 4.0)));
+                .insert(Transform
+                    ::from_translation(Vec3::new(-8.0 + j as f32 * 4.0, 4.0, -8.0 + i as f32 * 4.0))
+                    .with_rotation(Quat::from_euler(EulerRot::XYZ, PI, 0.0, 0.0))
+                );
 
             j += 1;
         }
