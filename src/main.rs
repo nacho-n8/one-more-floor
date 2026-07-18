@@ -1,11 +1,14 @@
 mod camera;
+mod level_generation;
 mod player;
 mod temp;
 
-use crate::camera::CameraPlugin;
-use crate::player::PlayerPlugin;
+use crate::{
+    camera::CameraPlugin,
+    level_generation::LevelGenerationPlugin,
+    player::PlayerPlugin
+};
 
-use avian::prelude::*;
 use bevy::prelude::*;
 
 fn main() {
@@ -21,7 +24,6 @@ fn main() {
             PhysicsPlugins::default(),
             avian::debug_render::PhysicsDebugPlugin::default(),
         ))
-        .add_plugins((CameraPlugin, PlayerPlugin))
-        .add_systems(Startup,  temp::spawn_level)
+        .add_plugins((CameraPlugin, LevelGenerationPlugin, PlayerPlugin))
         .run();
 }

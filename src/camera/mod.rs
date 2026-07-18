@@ -2,7 +2,8 @@ mod follow;
 mod spawn;
 
 use crate::camera::{
-    follow::{follow_player, lookat_player}, spawn::spawn_camera,
+    follow::{follow_player, lookat_player},
+    spawn::spawn_camera,
 };
 
 use bevy::prelude::*;

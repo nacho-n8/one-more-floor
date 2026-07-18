@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::player::Player;
 
-const FOLLOW_OFFSET: Vec3 = Vec3::new(0.0, 2.0, 5.0);
+const FOLLOW_OFFSET: Vec3 = if cfg!(feature = "view_level_gen") { Vec3::new(0.0, 13.0, 5.0) } else { Vec3::new(0.0, 2.0, 5.0) };
 const LOOK_OFFSET: Vec3 = Vec3::new(0.0, 1.0, 0.0);
 
 pub fn follow_player(
