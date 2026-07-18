@@ -6,50 +6,62 @@ use bevy::{
 };
 use rand::random_bool;
 
-const ROOM_WIDTH: usize = 5;
-const ROOM_LENGTH: usize = 5;
+const ROOM_WIDTH: usize = 7;
+const ROOM_LENGTH: usize = 7;
 
 const FLOOR_DENSITY: f64 = 0.9;
-const WALL_DENSITY: f64 = 0.1;
+const WALL_DENSITY: f64 = 0.07;
 
-fn generate_floorplan() -> [[bool; ROOM_WIDTH]; ROOM_LENGTH] {
-    let mut floorplan = [[false; ROOM_WIDTH]; ROOM_LENGTH];
+#[derive(Default, Clone, Copy)]
+struct Tile {
+    floor: bool,
+    top_wall: bool,
+    bottom_wall: bool,
+    left_wall: bool,
+    right_wall: bool,
+}
+
+fn generate_floorplan() -> [[Tile; ROOM_WIDTH]; ROOM_LENGTH] {
+    let mut floorplan = [[Tile::default(); ROOM_WIDTH]; ROOM_LENGTH];
+
     for (row, columns) in floorplan.iter_mut().enumerate() {
         for (column, tile) in columns.iter_mut().enumerate() {
             if row == 0 && column == 0 { // Corner tile will always spawn
-                *tile = true;
+                tile.floor = true;
+            } else {
+                tile.floor = random_bool(FLOOR_DENSITY);
+            }
+
+            if !tile.floor {
+                tile.top_wall = true;
+                tile.bottom_wall = true;
+                tile.left_wall = true;
+                tile.right_wall = true;
                 continue;
             }
 
-            *tile = random_bool(FLOOR_DENSITY);
+            for i in 0..4 {
+                let do_spawn = random_bool(WALL_DENSITY);
+
+                if i == 0 {
+                    tile.top_wall = do_spawn;
+                } else if i == 1 {
+                    tile.right_wall = do_spawn;
+                } else if i == 2 {
+                    tile.bottom_wall = do_spawn;
+                } else if i == 3 {
+                    tile.left_wall = do_spawn;
+                }
+            }
+
+            if row == 0 { tile.bottom_wall = true; }
+            if row == ROOM_LENGTH - 1 { tile.top_wall = true; }
+            if column == 0 { tile.left_wall = true; }
+            if column == ROOM_WIDTH -1 { tile.right_wall = true; }
         }
     }
 
     floorplan
-}
-
-fn determine_walls(row: usize, column: usize) -> [bool; 4] {
-    let mut walls = [false; 4];
-    for (wall, do_spawn) in walls.iter_mut().enumerate() {
-        // Ensure outer walls
-        if wall == 0 && row == 0 {
-            *do_spawn = true;
-            continue;
-        } else if wall == 1 && column == ROOM_WIDTH - 1 {
-            *do_spawn = true;
-            continue;
-        } else if wall == 2 && row == ROOM_LENGTH - 1 {
-            *do_spawn = true;
-            continue;
-        } else if wall == 3 && column == 0 {
-            *do_spawn = true;
-            continue;
-        }
-
-        *do_spawn = random_bool(WALL_DENSITY);
-    }
-
-    walls
 }
 
 pub fn spawn_room(
@@ -59,47 +71,41 @@ pub fn spawn_room(
     let floorplan = generate_floorplan();
 
     let mut spawn_z = 0.0;
-    for (row, columns) in floorplan.iter().enumerate() {
+    for columns in floorplan.iter() {
         let mut spawn_x = 0.0;
-        for (column, tile) in columns.iter().enumerate() {
-            if *tile == true {
+        for tile in columns.iter() {
+            if tile.floor {
                 commands.spawn((
                     Transform::from_translation(Vec3::new(spawn_x, 0.0, spawn_z)),
                     WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/floor_wood_large.gltf")))
                 ));
-                // Create  walls
-                for (i, wall) in determine_walls(row, column).iter().enumerate() {
-                    if *wall == true {
-                        match i {
-                            0 => {
-                                commands.spawn(( // top wall
-                                    Transform::from_translation(Vec3::new(spawn_x, 0.0, spawn_z + 2.0)),
-                                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
-                                ));
-                            },
-                            1 => {
-                                commands.spawn(( // right wall
-                                    Transform::from_translation(Vec3::new(spawn_x + 2.0, 0.0, spawn_z)).with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0)),
-                                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
-                                ));
-                            },
-                            2 => {
-                                commands.spawn(( // bottom wall
+            }
+
+            if tile.top_wall {
+                commands.spawn((
                                     Transform::from_translation(Vec3::new(spawn_x, 0.0, spawn_z - 2.0)),
                                     WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
                                 ));
-                            },
-                            3 => { 
-                                commands.spawn(( // left wall
+            }
+            if tile.bottom_wall {
+                commands.spawn((
+                                    Transform::from_translation(Vec3::new(spawn_x, 0.0, spawn_z + 2.0)),
+                                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
+                                ));
+            }
+            if tile.left_wall {
+                commands.spawn((
                                     Transform::from_translation(Vec3::new(spawn_x - 2.0, 0.0, spawn_z)).with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0)),
                                     WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
                                 ));
-                            },
-                            _ => warn!("Not sure why it got to this point...")
-                        }
-                    }
-                }
             }
+            if tile.right_wall {
+                commands.spawn((
+                                    Transform::from_translation(Vec3::new(spawn_x + 2.0, 0.0, spawn_z)).with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0)),
+                                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
+                                ));
+            }
+
             spawn_x += 4.0;
         }
         spawn_z -= 4.0;
