@@ -1,5 +1,6 @@
 use std::f32::consts::PI;
 
+use avian::prelude::*;
 use bevy::{
     color::palettes::tailwind::AMBER_500,
     prelude::*
@@ -83,27 +84,43 @@ pub fn spawn_room(
 
             if tile.top_wall {
                 commands.spawn((
-                                    Transform::from_translation(Vec3::new(spawn_x, 0.0, spawn_z - 2.0)),
-                                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
-                                ));
+                    Transform::from_translation(Vec3::new(spawn_x, 2.0, spawn_z - 2.0)),
+                    RigidBody::Static,
+                    Collider::cuboid(4.0, 4.0, 1.0)
+                )).with_child((
+                    Transform::from_translation(Vec3::new(0.0, -2.0, 0.0)),
+                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
+                ));
             }
             if tile.bottom_wall {
                 commands.spawn((
-                                    Transform::from_translation(Vec3::new(spawn_x, 0.0, spawn_z + 2.0)),
-                                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
-                                ));
+                    Transform::from_translation(Vec3::new(spawn_x, 2.0, spawn_z + 2.0)),
+                    RigidBody::Static,
+                    Collider::cuboid(4.0, 4.0, 1.0)
+                )).with_child((
+                    Transform::from_translation(Vec3::new(0.0, -2.0, 0.0)),
+                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
+                ));
             }
             if tile.left_wall {
                 commands.spawn((
-                                    Transform::from_translation(Vec3::new(spawn_x - 2.0, 0.0, spawn_z)).with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0)),
-                                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
-                                ));
+                    Transform::from_translation(Vec3::new(spawn_x - 2.0, 2.0, spawn_z)).with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0)),
+                    RigidBody::Static,
+                    Collider::cuboid(4.0, 4.0, 1.0)
+                )).with_child((
+                    Transform::from_translation(Vec3::new(0.0, -2.0, 0.0)),
+                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
+                ));
             }
             if tile.right_wall {
                 commands.spawn((
-                                    Transform::from_translation(Vec3::new(spawn_x + 2.0, 0.0, spawn_z)).with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0)),
-                                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
-                                ));
+                    Transform::from_translation(Vec3::new(spawn_x + 2.0, 2.0, spawn_z)).with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0)),
+                    RigidBody::Static,
+                    Collider::cuboid(4.0, 4.0, 1.0)
+                )).with_child((
+                    Transform::from_translation(Vec3::new(0.0, -2.0, 0.0)),
+                    WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))),
+                ));
             }
 
             spawn_x += 4.0;

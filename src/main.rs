@@ -28,6 +28,7 @@ fn main() {
             PhysicsPlugins::default(),
         ))
         .add_plugins((CameraPlugin, LevelGenerationPlugin, PlayerPlugin))
+        .add_plugins(avian::debug_render::PhysicsDebugPlugin)
         .add_systems(Update, grab_mouse)
         .run();
 }
