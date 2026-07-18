@@ -15,8 +15,9 @@ use bevy::{
 };
 
 fn main() {
-    App::new()
-        .add_plugins((
+    let mut app = App::new();
+
+    app.add_plugins((
             DefaultPlugins.set(WindowPlugin {
                 primary_window: Some(Window {
                     resizable: false,
@@ -27,8 +28,12 @@ fn main() {
             PhysicsPlugins::default(),
         ))
         .add_plugins((LevelGenerationPlugin, PlayerPlugin))
-        .add_systems(Update, grab_mouse)
-        .run();
+        .add_systems(Update, grab_mouse);
+
+    #[cfg(feature="debug_physics")]
+    app.add_plugins(avian::debug_render::PhysicsDebugPlugin);
+
+    app.run();
 }
 
 fn grab_mouse(
