@@ -1,9 +1,9 @@
 mod spawn;
 mod movement;
 
-use crate::{
-    player::spawn::spawn_player,
-    player::movement::move_player,
+use crate::player::{
+    spawn::spawn_player,
+    movement::move_player,
 };
 
 use bevy::prelude::*;
