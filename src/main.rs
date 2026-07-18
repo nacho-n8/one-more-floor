@@ -23,7 +23,6 @@ fn main() {
                 ..default()
             }),
             PhysicsPlugins::default(),
-            avian::debug_render::PhysicsDebugPlugin::default(),
         ))
         .add_plugins((CameraPlugin, LevelGenerationPlugin, PlayerPlugin))
         .run();

@@ -1,9 +1,10 @@
 use crate::player::Player;
 
 use avian::prelude::*;
-use bevy::prelude::*;
+use bevy::{input::mouse::MouseMotion, prelude::*};
 
 const SPEED: f32 = 5.0;
+const LOOK_SENSITIVITY: f32 = 0.03;
 
 pub fn read_movement_input(input: &ButtonInput<KeyCode>) -> Vec2 {
     const MOVEMENT_KEYS: [(KeyCode, Vec2); 4] = [
@@ -21,9 +22,9 @@ pub fn read_movement_input(input: &ButtonInput<KeyCode>) -> Vec2 {
 
 pub fn move_player(
     input: Res<ButtonInput<KeyCode>>,
-    mut query: Query<&mut LinearVelocity, With<Player>>,
+    mut query: Query<(&mut LinearVelocity, &Transform), With<Player>>,
 ) {
-    let Ok(mut velocity) = query.single_mut() else {
+    let Ok((mut velocity, transform)) = query.single_mut() else {
         error!("More than one suitable entity for 'move_player'.");
         return;
     };
@@ -32,8 +33,27 @@ pub fn move_player(
 
     if direction != Vec2::ZERO {
         let delta = direction.normalize() * SPEED;
-        velocity.0 = Vec3::new(delta.x, 0.0, -delta.y);
+        let new_velocity = transform.rotation.mul_vec3(Vec3::new(delta.x, 0.0, -delta.y));
+        velocity.0 = new_velocity;
     } else {
         velocity.0 = Vec3::ZERO;
     }
+}
+
+pub fn rotate_player(
+    mut input: MessageReader<MouseMotion>,
+    mut query: Query<&mut Transform, With<Player>>,
+) {
+    let mut mouse_delta = Vec2::ZERO;
+    for event in input.read() {
+        mouse_delta = event.delta;
+    }
+
+    let Ok(mut transform) = query.single_mut() else {
+        error!("More than one suitable entity for 'rotate_player'.");
+        return;
+    };
+
+    let angle_delta = -mouse_delta.x * LOOK_SENSITIVITY;
+    transform.rotate_local_y(angle_delta);
 }

@@ -1,6 +1,6 @@
-use bevy::prelude::*;
-
 use crate::player::Player;
+
+use bevy::prelude::*;
 
 const FOLLOW_OFFSET: Vec3 = if cfg!(feature = "view_level_gen") { Vec3::new(0.0, 13.0, 5.0) } else { Vec3::new(0.0, 2.0, 5.0) };
 const LOOK_OFFSET: Vec3 = Vec3::new(0.0, 1.0, 0.0);
@@ -17,8 +17,8 @@ pub fn follow_player(
         error!("More than one suitable entity for 'follow_player'.");
         return;
     };
-
-    camera_transform.translation = player_transform.translation + FOLLOW_OFFSET;
+    
+    camera_transform.translation = player_transform.translation + player_transform.rotation.mul_vec3(FOLLOW_OFFSET);
 }
 
 pub fn lookat_player(
