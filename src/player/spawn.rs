@@ -2,6 +2,7 @@ use crate::player::Player;
 
 use std::f32::consts::PI;
 
+use avian::prelude::*;
 use bevy::prelude::*;
 
 pub fn spawn_player(
@@ -12,5 +13,10 @@ pub fn spawn_player(
         .insert((
             Player,
             Transform::from_scale(Vec3::splat(0.7)).with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI, 0.0)),
+            RigidBody::Dynamic,
+            GravityScale(0.0),
+            LockedAxes::ROTATION_LOCKED,
+            Collider::capsule(1.0, 2.0),
+            LinearVelocity::ZERO,
         ));
 }

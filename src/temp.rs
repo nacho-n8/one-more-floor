@@ -1,5 +1,6 @@
 use std::f32::consts::PI;
 
+use avian::prelude::*;
 use bevy::{
     color::palettes::tailwind::AMBER_500,
     prelude::*
@@ -16,70 +17,149 @@ pub fn spawn_level(
     });
     
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
-        .insert(Transform::from_translation(Vec3::new(-4.0, 0.0, -8.0)));
-    commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
-        .insert(Transform::from_translation(Vec3::new(0.0, 0.0, -8.0)));
-    commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
-        .insert(Transform::from_translation(Vec3::new(4.0, 0.0, -8.0)));
+        .insert(Transform::from_translation(Vec3::new(-4.0, 0.0, -8.0)))
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
 
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
-        .insert(Transform::from_translation(Vec3::new(-4.0, 0.0, 8.0)));
+        .insert(Transform::from_translation(Vec3::new(0.0, 0.0, -8.0)))
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
-        .insert(Transform::from_translation(Vec3::new(0.0, 0.0, 8.0)));
+        .insert(Transform::from_translation(Vec3::new(4.0, 0.0, -8.0)))
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
+
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
-        .insert(Transform::from_translation(Vec3::new(4.0, 0.0, 8.0)));
+        .insert(Transform::from_translation(Vec3::new(-4.0, 0.0, 8.0)))
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
+    commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
+        .insert(Transform::from_translation(Vec3::new(0.0, 0.0, 8.0)))
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
+    commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
+        .insert(Transform::from_translation(Vec3::new(4.0, 0.0, 8.0)))
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
 
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
         .insert(Transform
             ::from_translation(Vec3::new(-8.0, 0.0, -4.0))
             .with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0))
-        );
+        )
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
         .insert(Transform
             ::from_translation(Vec3::new(-8.0, 0.0, 0.0))
             .with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0))
-        );
+        )
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
         .insert(Transform
             ::from_translation(Vec3::new(-8.0, 0.0, 4.0))
             .with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0))
-        );
+        )
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
 
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
         .insert(Transform
             ::from_translation(Vec3::new(8.0, 0.0, -4.0))
             .with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0))
-        );
+        )
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
         .insert(Transform
             ::from_translation(Vec3::new(8.0, 0.0, 0.0))
             .with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0))
-        );
+        )
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall.gltf"))))
         .insert(Transform
             ::from_translation(Vec3::new(8.0, 0.0, 4.0))
             .with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0))
-        );
+        )
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
 
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall_corner.gltf"))))
         .insert(Transform
             ::from_translation(Vec3::new(-8.0, 0.0, -8.0))
             .with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0, 0.0))
-        );
+        )
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall_corner.gltf"))))
         .insert(Transform
             ::from_translation(Vec3::new(8.0, 0.0, -8.0))
-        );
+        )
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall_corner.gltf"))))
         .insert(Transform
             ::from_translation(Vec3::new(-8.0, 0.0, 8.0))
             .with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI, 0.0))
-        );
+        )
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
+
     commands.spawn(WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/wall_corner.gltf"))))
         .insert(Transform
             ::from_translation(Vec3::new(8.0, 0.0, 8.0))
             .with_rotation(Quat::from_euler(EulerRot::XYZ, 0.0, PI / 2.0 + PI, 0.0))
-        );
+        )
+        .insert((
+            RigidBody::Static,
+            Collider::cuboid(4.0, 4.0, 1.0),
+        ));
 
     let mut i = 0;
     while i < 5 {
