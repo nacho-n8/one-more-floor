@@ -4,7 +4,6 @@ mod player;
 mod temp;
 
 use crate::{
-    camera::CameraPlugin,
     level_generation::LevelGenerationPlugin,
     player::PlayerPlugin
 };
@@ -27,8 +26,7 @@ fn main() {
             }),
             PhysicsPlugins::default(),
         ))
-        .add_plugins((CameraPlugin, LevelGenerationPlugin, PlayerPlugin))
-        .add_plugins(avian::debug_render::PhysicsDebugPlugin)
+        .add_plugins((LevelGenerationPlugin, PlayerPlugin))
         .add_systems(Update, grab_mouse)
         .run();
 }
