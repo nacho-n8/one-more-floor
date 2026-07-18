@@ -10,7 +10,10 @@ use crate::{
 };
 
 use avian::prelude::*;
-use bevy::prelude::*;
+use bevy::{
+    prelude::*,
+    window::{CursorGrabMode, CursorOptions},
+};
 
 fn main() {
     App::new()
@@ -25,5 +28,22 @@ fn main() {
             PhysicsPlugins::default(),
         ))
         .add_plugins((CameraPlugin, LevelGenerationPlugin, PlayerPlugin))
+        .add_systems(Update, grab_mouse)
         .run();
+}
+
+fn grab_mouse(
+    mut cursor_options: Single<&mut CursorOptions>,
+    mouse_input: Res<ButtonInput<MouseButton>>,
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+) {
+    if mouse_input.just_pressed(MouseButton::Left) || mouse_input.just_pressed(MouseButton::Right) {
+        cursor_options.visible = false;
+        cursor_options.grab_mode = CursorGrabMode::Locked;
+    }
+
+    if keyboard_input.just_pressed(KeyCode::Escape) {
+        cursor_options.visible = true;
+        cursor_options.grab_mode = CursorGrabMode::None;
+    }
 }
