@@ -17,8 +17,7 @@ pub fn spawn_player(
         LockedAxes::ROTATION_LOCKED,
         Collider::capsule(0.5, 0.5),
         LinearVelocity::ZERO,
-    )).with_children(|parent| {
-        parent.spawn((
+    )).with_child((
             WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("character/knight.glb"))),
             Transform {
                 translation: Vec3::new(0.0, -1.0, 0.0),
@@ -26,5 +25,4 @@ pub fn spawn_player(
                 scale: Vec3::splat(0.7),
             }
     ));
-});
 }
