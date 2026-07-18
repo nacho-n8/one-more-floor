@@ -9,6 +9,7 @@ use crate::{
     player::PlayerPlugin
 };
 
+use avian::prelude::*;
 use bevy::prelude::*;
 
 fn main() {
